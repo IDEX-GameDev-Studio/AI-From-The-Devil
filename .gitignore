@@ -1,0 +1,31 @@
+# Личные файлы
+MRMIL.md
+
+# Obsidian локальная конфигурация
+.obsidian/
+
+# Unity
+[Uu]nity/
+[Tt]emp/
+[Ll]ibrary/
+[Ll]ogs/
+[Mm]emoryCaptures/
+[Pp]ackages/
+[Pp]rojectSettings/
+[Ii]de/
+
+# VS
+.vs/
+*.csproj
+*.sln
+*.suo
+*.user
+*.userosscache
+
+# Builds
+[Bb]uild/
+[Dd]ist/
+
+# OS
+.DS_Store
+Thumbs.db
