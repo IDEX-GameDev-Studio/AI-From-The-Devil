@@ -4,27 +4,36 @@ MRMIL.md
 # Obsidian локальная конфигурация
 .obsidian/
 
-# Unity
-[Uu]nity/
-[Tt]emp/
-[Ll]ibrary/
-[Ll]ogs/
-[Mm]emoryCaptures/
-[Pp]ackages/
-[Pp]rojectSettings/
-[Ii]de/
+# ===== Unity (проект в подпапке AI-FromTheDevil/) =====
+# Служебные папки Unity — ИГНОРИРУЕМ
+AI-FromTheDevil/[Ll]ibrary/
+AI-FromTheDevil/[Tt]emp/
+AI-FromTheDevil/[Ll]ogs/
+AI-FromTheDevil/[Mm]emoryCaptures/
+AI-FromTheDevil/[Uu]ser[Ss]ettings/
+AI-FromTheDevil/[Bb]uild/
+AI-FromTheDevil/[Bb]uilds/
+AI-FromTheDevil/[Bb]ackups/
+AI-FromTheDevil/[Rr]ecordings/
 
-# VS
+# Важно! Packages/ и ProjectSettings/ — НЕ игнорируем.
+# manifest.json (пакеты) и ProjectVersion.txt (версия Unity) обязательны для всех.
+
+# Генерируемые Unity файлы (каждый открывает проект через Unity Hub)
+AI-FromTheDevil/*.csproj
+AI-FromTheDevil/*.sln
+AI-FromTheDevil/*.slnx
+AI-FromTheDevil/.vsconfig
+
+# IDE
 .vs/
-*.csproj
-*.sln
+.idea/
 *.suo
 *.user
 *.userosscache
-
-# Builds
-[Bb]uild/
-[Dd]ist/
+*.userprefs
+*.pidb
+*.svd
 
 # OS
 .DS_Store
