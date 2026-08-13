@@ -98,6 +98,29 @@ Assets/                # Project assets
 ```
 
 ---
+## 📦 Dependencies
+
+### Required Assets (Unity Asset Store)
+
+1. **Rain Particles** by Game Seed Assets  
+   - Link: https://assetstore.unity.com/packages/vfx/particles/rain-particles-351846  
+   - Purpose: Rain visual effects (particle system)  
+   - Status: **Free**  
+   - License: Standard Unity Asset Store EULA
+
+1. **Day Night Skybox** by Wello Soft
+   - Link: https://assetstore.unity.com/packages/package/32236  
+   - Purpose: Dynamic day/night skybox and lighting  
+   - Status: Requires purchase / Free  
+   - License: Standard Unity Asset Store EULA
+
+> **Important:** Assets from Unity Asset Store are not included in this repository due to licensing restrictions. To run this project correctly, you must import these assets through Unity Asset Store or Package Manager.
+
+### Optional Packages (Unity Package Manager)
+
+- [Post Processing]
+- [Universal Render Pipeline]
+---
 
 ## 📈 Status
 
@@ -113,18 +136,18 @@ Assets/                # Project assets
 
 > AI-From-The-Devil and its source code are available for **free non-commercial use**.
 
-| ✓ You may | ✗ You may not |
-|-----------|---------------|
-| Play the game | Sell the game or mods |
-| Study the code | Paid access |
-| Create mods and your own projects based on it, and distribute them for free | In-game advertising |
-| Streaming and video content (including monetized YouTube/Twitch content) | Paid products based on this project |
+| ✓ You may                                                                   | ✗ You may not                       |
+| --------------------------------------------------------------------------- | ----------------------------------- |
+| Play the game                                                               | Sell the game or mods               |
+| Study the code                                                              | Paid access                         |
+| Create mods and your own projects based on it, and distribute them for free | In-game advertising                 |
+| Streaming and video content (including monetized YouTube/Twitch content)    | Paid products based on this project |
 
 Voluntary donations to mod authors are not treated as commercial use.
 
 **ℹ️ Any commercial use** (selling the game or mods, paid access, in-game advertising, paid products based on this project, etc.) is allowed **only under a separate Commercial License**, which includes a fixed fee and a 10% share of net profit. See `LICENSE` for details.
 
-For commercial licensing, contact: `idex.gamedevstudio@gmail.com`.
+For commercial licensing, contact: `idex.gamedevstudio@gmail.com`
 
 ---
 
