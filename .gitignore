@@ -3,6 +3,9 @@ MRMIL.md
 
 # Obsidian локальная конфигурация
 .obsidian/
+# Assets from Unity asset store
+AI-FromTheDevil/Assets/Day-Night Skyboxes/
+AI-FromTheDevil/Assets/Rain Particles/
 
 # ===== Unity (проект в подпапке AI-FromTheDevil/) =====
 # Служебные папки Unity — ИГНОРИРУЕМ
