@@ -15,18 +15,32 @@ public class SingleSceneSplashScreen : MonoBehaviour
     [Header("UI Тексту Старту")]
     public GameObject pressKeyText;
 
-    [Header("Об'єкти Гри та Камери")]
-    public Transform mainCamera;
-    public Transform monitorTarget;
+    [Header("Камера та Монітор")]
+    [SerializeField] private Transform monitorTarget;
+    [SerializeField] private GameObject monitorCanvas;
+    [SerializeField] private CanvasGroup monitorCanvasGroup;
+    [SerializeField] private GameObject psxCanvas;
     public float zoomSpeed = 3f;
 
     private bool canStart = false;
     private bool isZooming = false;
+    private Transform _mainCamera;
 
     private void Start()
     {
+        _mainCamera = Camera.main.transform;
+
         if (pressKeyText != null)
             pressKeyText.SetActive(false);
+
+        if (monitorCanvasGroup != null)
+            monitorCanvasGroup.alpha = 0f;
+
+        if (monitorCanvas != null)
+            monitorCanvas.SetActive(true);
+
+        if (psxCanvas != null)
+            psxCanvas.SetActive(true);
 
         if (introCanvasGroup != null)
             StartCoroutine(PlaySplashScreen());
@@ -79,12 +93,15 @@ public class SingleSceneSplashScreen : MonoBehaviour
 
         if (isZooming)
         {
-            mainCamera.position = Vector3.Lerp(mainCamera.position, monitorTarget.position, Time.deltaTime * zoomSpeed);
-            mainCamera.rotation = Quaternion.Lerp(mainCamera.rotation, monitorTarget.rotation, Time.deltaTime * zoomSpeed);
+            _mainCamera.position = Vector3.Lerp(_mainCamera.position, monitorTarget.position, Time.deltaTime * zoomSpeed);
+            _mainCamera.rotation = Quaternion.Lerp(_mainCamera.rotation, monitorTarget.rotation, Time.deltaTime * zoomSpeed);
 
-            if (Vector3.Distance(mainCamera.position, monitorTarget.position) < 0.01f)
+            if (Vector3.Distance(_mainCamera.position, monitorTarget.position) < 0.01f)
             {
                 isZooming = false;
+                if (monitorCanvasGroup != null)
+                    monitorCanvasGroup.alpha = 1f;
+                gameObject.SetActive(false);
             }
         }
     }
