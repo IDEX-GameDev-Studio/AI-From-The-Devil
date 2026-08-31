@@ -1,250 +1,155 @@
-# Система взаємодії — Конспект
+# Система взаємодії — План (без коду)
 
-## Навіщо це потрібно
+## Мета
 
-Завдання від викладача: створити **універсальну систему взаємодії** героя з об'єктами через клавішу E. Система повинна бути гнучкою — щоб можна було додавати нові об'єкти (двері, вимикачі, комп'ютери) без переписування існуючого коду.
+Гравець підходить до об'єкта → бачить підказку → натискає E → об'єкт виконує дію → квест оновлюється.
 
 ---
 
 ## Архітектура
 
 ```
-IInteractable (інтерфейс)
-      ↑
-InteractableObject (абстракція)
-      ↑
-   Computer / Door / Switch (конкретні об'єкти)
-
-PlayerInteraction (перевіряє взаємодію)
-InteractionUI (показує підказку)
-
-Quest (абстракція квесту)
-  ↑
-ComputerQuest / DoorQuest (конкретні квести)
-
-QuestHolder<T> (контейнер для квестів)
-QuestSystem (керує квестами)
+PlayerInteraction ──► IInteractable ──► Door / Computer / Switch
+       │
+       ▼
+InteractionEvents (ScriptableObject)
+       │
+       ▼
+  QuestSystem
+       │
+       ▼
+  Quest + Objectives
 ```
 
 ---
 
-## Ключові концепти
+## Компоненти
 
-### 1. Інтерфейс (IInteractable)
+### 1. IInteractable (контракт)
 
-**Що це:** контракт, який визначає "що може робити" об'єкт.
+**Питання:** що має бути в цьому інтерфейсі?
+- Текст підказки — як назвати властивість?
+- Дія при натисканні E — як назвати метод?
 
-```csharp
-public interface IInteractable
-{
-    string InteractionText { get; }
-    void Interact();
-}
-```
-
-**Чому інтерфейс, а не абстракція:**
-- Інтерфейс **не має реалізації** — тільки оголошення
-- Будь-який об'єкт може реалізувати інтерфейс (навіть не MonoBehaviour)
-- Інтерфейс = "що ти вмієш", а не "як ти це робиш"
-
-**Коли використовувати:**
-- Коли потрібен контракт без спільної логіки
-- Коли об'єкти не пов'язані ієрархією
+**Підказка:** це всього 2 рядки в інтерфейсі.
 
 ---
 
-### 2. Абстракція (InteractableObject)
+### 2. Конкретні об'єкти (Door, Computer, Switch)
 
-**Що це:** базовий клас зі спільною логікою для всіх інтерактивних об'єктів.
+**Питання:** як кожен об'єкт реалізує IInteractable?
+- Що повертає властивість з текстом?
+- Що робить метод з дією?
 
-```csharp
-public abstract class InteractableObject : MonoBehaviour, IInteractable
-{
-    [SerializeField] protected string interactionText = "Press E to interact";
-
-    public string InteractionText => interactionText;
-
-    public abstract void Interact();
-}
-```
-
-**Чому абстракція, а не інтерфейс:**
-- Абстракція **має реалізацію** (спільні поля, методи)
-- Не потрібно копіювати `interactionText` в кожен об'єкт
-- `protected` — доступ тільки для дочірніх класів
-
-**Коли використовувати:**
-- Коли є спільна логіка (поля, методи)
-- Коли об'єкти пов'язані ієрархією
+**Підказка:** кожен об'єкт має свій текст і свою логіку.
 
 ---
 
-### 3. Інтерфейс vs Абстракція — коли що
+### 3. PlayerInteraction (знаходить об'єкт)
 
-| Інтерфейс | Абстракція |
-|-----------|------------|
-| Тільки оголошення | Має реалізацію |
-| Будь-який клас | Тільки наслідники |
-| "Що ти вмієш" | "Як ти це робиш" |
-| Коли немає спільної логіки | Коли є спільна логіка |
+**Питання:** як знайти IInteractable на об'єкті?
+- Який інструмент Unity шукає об'єкти в сцені?
+- Як перевірити чи є на об'єкті IInteractable?
+- Що робити коли знайшли?
+- Що робити при натисканні E?
 
-**У нашому випадку:**
-- `IInteractable` — контракт (будь-який об'єкт може бути інтерактивним)
-- `InteractableObject` — спільна логіка (всі інтерактивні об'єкти в Unity мають однакову базу)
+**Підказка:** подумай про Raycast та Input.
 
 ---
 
-### 4. Події (Events)
+### 4. InteractionUI (показує підказку)
 
-**Що це:** спосіб повідомити інші системи про те, що щось трапилося.
+**Питання:** як показати текст на екрані?
+- Який компонент Unity показує текст?
+- Як увімкнути/вимкнути UI?
 
-```csharp
-// У PlayerInteraction
-public static event Action<IInteractable> OnInteracted;
-
-// Виклик
-OnInteracted?.Invoke(currentInteractable);
-```
-
-**Навіщо:**
-- `PlayerInteraction` **не знає** про `QuestSystem`
-- `QuestSystem` **підписується** на подію і реагує
-- Можна додавати нові системи без зміни `PlayerInteraction`
-
-**Який SOLID застосовується:**
-- **DIP** (Dependency Inversion) — модулі залежать від абстракцій, а не від конкретних класів
-- **OCP** (Open/Closed) — відкритий для розширення (нові системи), закритий для змін (не чіпаємо PlayerInteraction)
-
-**`static` навіщо:**
-- В грі один герой і одна глобальна подія
-- Не потрібно створювати екземпляр для доступу до події
+**Підказка:** подумай про GameObject.SetActive та TextMeshPro.
 
 ---
 
-### 5. Generic (QuestHolder<T>)
+### 5. InteractionEvents (ScriptableObject)
 
-**Що це:** контейнер, який працює з різними типами квестів.
+**Питання:** як повідомити інші системи про взаємодію?
+- Що таке ScriptableObject?
+- Як створити event в ScriptableObject?
+- Як викликати цей event?
 
-```csharp
-public class QuestHolder<T> where T : Quest
-{
-    public T CurrentQuest { get; private set; }
-
-    public void SetQuest(T quest)
-    {
-        CurrentQuest = quest;
-    }
-}
-```
-
-**Навіщо:**
-- Один клас працює з `MainQuest`, `SideQuest`, `TutorialQuest`
-- Не потрібно робити окремий контейнер для кожного типу
-- `where T : Quest` — обмеження, щоб T був тільки нащадком Quest
-
-**Чому не робити Computer або PlayerInteraction дженериками:**
-- Вони працюють з конкретними типами
-- Дженерик тут не дає практичної користі
+**Підказка:** подумай про CreateAssetMenu та event.
 
 ---
 
-### 6. Абстракція квесту (Quest)
+### 6. Quest (квест з умовами)
 
-**Що це:** базовий клас для всіх квестів зі спільною логікою.
+**Питання:** як зберігати умови квесту?
+- Що має бути в квесті (опис, статус)?
+- Що таке QuestObjective?
+- Як перевірити чи квест виконано?
 
-```csharp
-public abstract class Quest
-{
-    public string Description { get; protected set; }
-    public bool IsCompleted { get; protected set; }
-
-    public abstract void CheckProgress(IInteractable interactable);
-}
-```
-
-**Чому абстракція, а не інтерфейс:**
-- `Description` та `IsCompleted` — спільні поля для всіх квестів
-- Якщо був би інтерфейс — довелося б копіювати ці поля в кожний квест
-- Абстракція дає це **один раз**
+**Підказка:** подумай про масив умов.
 
 ---
 
-## SOLID у нашій системі
+### 7. QuestObjective (умова квесту)
 
-### SRP (Single Responsibility)
-- `PlayerInteraction` — тільки визначає взаємодію
-- `InteractionUI` — тільки показує підказку
-- `Computer` — тільки логіка комп'ютера
-- `QuestSystem` — тільки керування квестами
+**Питання:** як зробити різні типи умов?
+- InteractObjective — що перевіряє?
+- CollectObjective — що перевіряє?
+- Як базовий клас знає що перевіряти?
 
-### OCP (Open/Closed)
-- Новий об'єкт (Door) — додаємо наслідника InteractableObject
-- Не змінюємо PlayerInteraction, QuestSystem
-
-### LSP (Liskov Substitution)
-- Будь-який наслідник InteractableObject може замінити батьківський клас
-- PlayerInteraction працює з IInteractable — йому байдуже який саме об'єкт
-
-### ISP (Interface Segregation)
-- IInteractable містить тільки те, що потрібно для взаємодії
-- Не має зайвих методів
-
-### DIP (Dependency Inversion)
-- PlayerInteraction залежить від IInteractable (абстракція)
-- QuestSystem залежить від події (абстракція)
-- Ніхто не залежить від конкретних класів
+**Підказка:** подумай про абстракцію та наслідування.
 
 ---
 
-## Приклад роботи (крок за кроком)
+### 8. QuestSystem (керує квестами)
 
-1. Гравець отримує квест: "Увімкнути комп'ютер"
-2. QuestSystem створює `ComputerQuest` і передає в `QuestHolder<ComputerQuest>`
-3. UI показує опис квесту
-4. Гравець підходить до комп'ютера
-5. `PlayerInteraction` (через Raycast/SphereCast) знаходить `IInteractable`
-6. `InteractionUI` показує: "Press E to interact"
-7. Гравець натискає E
-8. `PlayerInteraction` викликає `currentInteractable.Interact()`
-9. `Computer.Interact()` виконує логіку (вмикає комп'ютер)
-10. `PlayerInteraction` викликає подію `OnInteracted`
-11. `QuestSystem` отримує подію, перевіряє квест
-12. Якщо взаємодія була з комп'ютером → `IsCompleted = true`
-13. UI оновлюється
+**Питання:** як QuestSystem дізнається про взаємодію?
+- Як підписатися на event?
+- Що робити коли отримав подію?
+- Як перевірити чи квест виконано?
+
+**Підказка:** подумай про Subscribe та CheckProgress.
 
 ---
 
-## Структура файлів
+## SOLID
 
-```
-Scripts/
-├── Interaction/
-│   ├── IInteractable.cs
-│   ├── InteractableObject.cs
-│   ├── PlayerInteraction.cs
-│   └── InteractionUI.cs
-├── Quests/
-│   ├── Quest.cs
-│   ├── ComputerQuest.cs
-│   ├── QuestHolder.cs
-│   └── QuestSystem.cs
-└── Objects/
-    ├── Computer.cs
-    ├── Door.cs
-    └── Switch.cs
-```
+| Принцип | Де застосовується | Чому |
+|---------|-------------------|------|
+| SRP | ? | ? |
+| OCP | ? | ? |
+| LSP | ? | ? |
+| ISP | ? | ? |
+| DIP | ? | ? |
+
+**Заповни таблицю.** Де кожен принцип застосовується в нашій системі?
+
+---
+
+## Як додати новий об'єкт
+
+1. Що потрібно зробити?
+2. Які компоненти треба додати?
+3. Чи треба змінювати PlayerInteraction?
+
+---
+
+## Як додати нову умову квесту
+
+1. Що потрібно зробити?
+2. Які класи треба створити?
+3. Чи треба змінювати QuestSystem?
 
 ---
 
 ## Питання для самоперевірки
 
-1. Чому IInteractable — інтерфейс, а не абстрактний клас?
-2. Навіщо static event Action<IInteractable> OnInteracted?
-3. Що станеться, якщо прибрати where T : Quest з QuestHolder?
-4. Який SOLID-принцип порушується, якщо PlayerInteraction напряму звернутися до QuestSystem?
-5. Чому логіка анімації повинна бути окремо від InteractableObject?
+1. Чому IInteractable — інтерфейс, а не абстракція?
+2. Навіщо InteractionEvents (ScriptableObject)?
+3. Що станеться якщо прибрати event з PlayerInteraction?
+4. Як працює поліморфізм в нашій системі?
+5. Чому не робити ComputerQuest, DoorQuest?
 
 ---
 
-*Створено: 26.08.2026*
+*Створено: 31.08.2026*
 *Автор: Михайло (MRMIL) + OpenCode Mentor*
