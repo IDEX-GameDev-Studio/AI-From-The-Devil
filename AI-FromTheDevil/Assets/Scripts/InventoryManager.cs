@@ -18,6 +18,52 @@ public class InventoryManager : MonoBehaviour
     [Header("slots")]
     public Image[] hotbarSlots;
 
+    [Header("Selection Settings")]
+    private int currentSelectedSlot = -1; // -1 означает, что ничего не выбрано
+    public Color selectedColor = Color.green;  // Цвет подсветки
+    public Color defaultColor = Color.white;   // Обычный цвет
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1)) SelectSlot(0);
+        if (Input.GetKeyDown(KeyCode.Alpha2)) SelectSlot(1);
+        if (Input.GetKeyDown(KeyCode.Alpha3)) SelectSlot(2);
+        if (Input.GetKeyDown(KeyCode.Alpha4)) SelectSlot(3);
+    }
+
+    void SelectSlot(int slotIndex)
+    {
+        if (slotIndex < 0 || slotIndex >= hotbarSlots.Length) return;
+
+        currentSelectedSlot = slotIndex;
+
+        if (slotIndex < inventoryList.Count)
+        {
+            Debug.Log("Item equipped from slot " + slotIndex + ": " + inventoryList[slotIndex].name);
+        }
+        else
+        {
+            Debug.Log("Equipped empty slot " + slotIndex);
+        }
+
+        UpdateSlotHighlights();
+    }
+
+    void UpdateSlotHighlights()
+    {
+        for (int i = 0; i < hotbarSlots.Length; i++)
+        {
+            if (i == currentSelectedSlot)
+            {
+                hotbarSlots[i].color = selectedColor;
+            }
+            else
+            {
+                hotbarSlots[i].color = defaultColor;
+            }
+        }
+    }
+
     public bool AddItem(string itemName, Sprite itemIcon)
     {
         if (inventoryList.Count >= maxSlots)
@@ -29,8 +75,8 @@ public class InventoryManager : MonoBehaviour
         InventoryItem newItem;
         newItem.name = itemName;
         newItem.icon = itemIcon;
-
         inventoryList.Add(newItem);
+
         UpdateUI();
         return true;
     }
@@ -50,6 +96,8 @@ public class InventoryManager : MonoBehaviour
                 hotbarSlots[i].enabled = false;
             }
         }
+        
+        UpdateSlotHighlights();
     }
 
     public bool HasItem(string nameToCheck)
