@@ -24,17 +24,18 @@ public class PlayerInteraction : MonoBehaviour
     {
         _camera = Camera.main;
     }
-    void FixedUpdate()
+    void Update()
     {
-        Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+        Vector2 currentMousePossition = _playerInputActions.Player.PointerPossition.ReadValue<Vector2>();
+        Ray ray = _camera.ScreenPointToRay(currentMousePossition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, _rayDistance))
         {
-            if (hit.collider.TryGetComponent(out IInteractable interactable) )
+            Debug.DrawRay(ray.origin, ray.direction * _rayDistance, Color.red);
+            if (hit.collider.TryGetComponent(out IInteractable interactable) && _playerInputActions.Player.Interact.WasPressedThisFrame())
             {
-                return;
+                interactable.Interact();
             }
-
         }
     }
     

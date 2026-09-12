@@ -270,6 +270,7 @@ GameObject:
   - component: {fileID: 1106032554}
   - component: {fileID: 1106032553}
   - component: {fileID: 1106032552}
+  - component: {fileID: 1106032558}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -376,6 +377,14 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 7d2f31e8-6f0c-4c3b-b394-88bfbf3f6502
     m_ActionName: 'Player/Look[/Mouse/position]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0d572234-8392-482c-85cf-d8533c20b32e
+    m_ActionName: 'Player/Interact[/Keyboard/e]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8aa8956e-477c-4c25-b310-458a74393b62
+    m_ActionName: 'Player/PointerPossition[/Mouse/position,/Pen/position]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -390,7 +399,7 @@ Transform:
   m_GameObject: {fileID: 1106032551}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: -0}
+  m_LocalPosition: {x: -1.0000004, y: 1, z: 0.9999999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -454,6 +463,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1106032551}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1106032558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1106032551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1df23e3ebb777e42a1a3e47a43f4b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteraction
+  _rayDistance: 3
 --- !u!1 &1153775102
 GameObject:
   m_ObjectHideFlags: 0
@@ -850,6 +872,7 @@ GameObject:
   - component: {fileID: 1677808598}
   - component: {fileID: 1677808597}
   - component: {fileID: 1677808596}
+  - component: {fileID: 1677808600}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -944,12 +967,26 @@ Transform:
   m_GameObject: {fileID: 1677808595}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0.5, z: -2.5}
-  m_LocalScale: {x: 1, y: 1, z: 0.5}
+  m_LocalPosition: {x: -0.50000024, y: 1.25, z: -3.25}
+  m_LocalScale: {x: 1, y: 2.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1677808600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677808595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199c3ffa434fce84cb57680851addc01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Door
+  _interactionData: {fileID: 11400000, guid: f0ef79993f019ba40b190dad30091800, type: 2}
+  _interactionEvents: {fileID: 11400000, guid: eebb479375f68d544970d6493d9abef8, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
