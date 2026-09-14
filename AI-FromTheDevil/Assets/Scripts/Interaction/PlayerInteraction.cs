@@ -6,6 +6,7 @@ public class PlayerInteraction : MonoBehaviour
     private PlayerInputActions _playerInputActions;
     [SerializeField] private float _rayDistance;
 
+    private GameObject _lastObject;
     private Camera _camera;
 
     private void Awake()
@@ -34,8 +35,15 @@ public class PlayerInteraction : MonoBehaviour
             Debug.DrawRay(ray.origin, ray.direction * _rayDistance, Color.red);
             if (hit.collider.TryGetComponent(out IInteractable interactable) && _playerInputActions.Player.Interact.WasPressedThisFrame())
             {
+
+                if (_lastObject == null && hit.collider is IInteractable)
+                {
+
+                }
                 interactable.Interact();
+                
             }
+            _lastObject = hit.collider.gameObject;
         }
     }
     

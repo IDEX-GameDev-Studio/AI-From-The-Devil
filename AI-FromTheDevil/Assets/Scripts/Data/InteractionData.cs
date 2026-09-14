@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewInteractionData", menuName = "Game/InteractionData")]
+[CreateAssetMenu(fileName = "InteractionData", menuName = "Game/InteractionData")]
 public class InteractionData : ScriptableObject
 {
     [SerializeField] private string _displayText;

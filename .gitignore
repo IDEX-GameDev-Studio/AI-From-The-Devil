@@ -4,6 +4,10 @@ MRMIL.md
 # Opencode
 .opencode
 
+# Github Copilot
+.github/agents/Mentor.agent.md
+
+
 # Obsidian локальная конфигурация
 .obsidian/
 # Assets from Unity asset store
