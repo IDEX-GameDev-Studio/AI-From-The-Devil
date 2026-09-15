@@ -11,10 +11,17 @@ public class TargetingEvents : ScriptableObject
         add => _OnTargeted += value;
         remove => _OnTargeted -= value;
     }
-    public event Action<InteractionData> OnOnExit
+    public event Action<InteractionData> OnExit
     {
         add => _OnExit += value;
         remove => _OnExit -= value;
     }
-
+    public void Raise(InteractionData interactionData)
+    {
+        _OnTargeted?.Invoke(interactionData);
+    }
+    public void RaiseExit(InteractionData interactionData)
+    {
+        _OnExit?.Invoke(interactionData);
+    }
 }

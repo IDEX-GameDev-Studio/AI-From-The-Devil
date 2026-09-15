@@ -3,15 +3,14 @@ using UnityEngine;
 public class Door : InteractableObject
 {
     [SerializeField] private InteractionEvents _interactionEvents;
-    [SerializeField] private InteractionData _interactionData;
     public override void Interact()
     {
         Debug.Log("Door opened");
-        _interactionEvents.Raise(_interactionData);
+        _interactionEvents.Raise(InteractionData);
     }
     private void OnValidate()
     {
-        if (_interactionData == null)
+        if (InteractionData == null)
         {
             Debug.LogWarning($"{name}: InteractionData не назначен.", this);
         }
