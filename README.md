@@ -2,7 +2,12 @@
 
 # AI-From-The-Devil
 
+[![LFS guard](https://github.com/IDEX-GameDev-Studio/AI-From-The-Devil/actions/workflows/lfs-guard.yml/badge.svg)](https://github.com/IDEX-GameDev-Studio/AI-From-The-Devil/actions/workflows/lfs-guard.yml)
+[![License: Non-Commercial](https://img.shields.io/badge/License-Non--Commercial-orange.svg)](LICENSE.md)
+
 **A psychological horror / techno-thriller set in the 2000s, built in a PSX/VHS aesthetic.**
+
+📖 [Українська версія](README.uk.md) · Design docs: [EN](docs/en/) / [UK](docs/uk/)
 
 ---
 
@@ -120,6 +125,26 @@ Assets/                # Project assets
 
 - [Post Processing]
 - [Universal Render Pipeline]
+---
+
+## ▶️ How to run
+
+1. Install **Unity 6000.4.10f1 (LTS)** via Unity Hub and open `AI-FromTheDevil/` as a project.
+2. Import the **Required Assets** listed above (they are not in the repo for licensing reasons).
+3. Install Git LFS once per machine: `git lfs install`, then `git lfs pull` to fetch large files.
+4. Press Play in the Editor. First import (especially TextMesh Pro) can take 10–30 minutes — let it finish.
+
+---
+
+## 🧩 Large files (Git LFS)
+
+Heavy binaries live in Git LFS, not in plain git. Tracked patterns (see `.gitattributes`): `*.hdr/*.exr`, audio (`*.mp3/*.wav/*.ogg`), models (`*.fbx/*.obj/*.blend`), fonts (`*.ttf/*.otf`), video (`*.mp4/*.mov`), `*.psd/*.tga`, `*.pdf`.
+
+---
+
+## 🤖 CI
+
+- **LFS guard** — fails the build if a file larger than 1 MiB is committed without LFS tracking. Runs on pushes to feature branches and on pull requests to `main`.
 ---
 
 ## 📈 Status
