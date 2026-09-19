@@ -105,22 +105,6 @@ Assets/                # Project assets
 ---
 ## 📦 Dependencies
 
-### Required Assets (Unity Asset Store)
-
-1. **Rain Particles** by Game Seed Assets  
-   - Link: https://assetstore.unity.com/packages/vfx/particles/rain-particles-351846  
-   - Purpose: Rain visual effects (particle system)  
-   - Status: **Free**  
-   - License: Standard Unity Asset Store EULA
-
-1. **Day Night Skybox** by Wello Soft
-   - Link: https://assetstore.unity.com/packages/package/32236  
-   - Purpose: Dynamic day/night skybox and lighting  
-   - Status: Requires purchase / Free  
-   - License: Standard Unity Asset Store EULA
-
-> **Important:** Assets from Unity Asset Store are not included in this repository due to licensing restrictions. To run this project correctly, you must import these assets through Unity Asset Store or Package Manager.
-
 ### Optional Packages (Unity Package Manager)
 
 - [Post Processing]
@@ -175,8 +159,6 @@ Voluntary donations to mod authors are not treated as commercial use.
 For commercial licensing, contact: `idex.gamedevstudio@gmail.com`
 
 ---
-
-## 📚 Docs
 
 ## 📚 Docs
 

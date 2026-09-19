@@ -106,22 +106,6 @@ Assets/                # Асети проєкту
 
 ## 📦 Залежності
 
-### Обов'язкові асети (Unity Asset Store)
-
-1. **Rain Particles** by Game Seed Assets
-   - Посилання: https://assetstore.unity.com/packages/vfx/particles/rain-particles-351846
-   - Призначення: візуальні ефекти дощу (партикли)
-   - Статус: **безкоштовний**
-   - Ліцензія: Standard Unity Asset Store EULA
-
-1. **Day Night Skybox** by Wello Soft
-   - Посилання: https://assetstore.unity.com/packages/package/32236
-   - Призначення: динамічний денний/нічний скайбокс та освітлення
-   - Статус: платний / безкоштовний
-   - Ліцензія: Standard Unity Asset Store EULA
-
-> **Важливо:** асети з Unity Asset Store не входять до репозиторію через ліцензійні обмеження. Щоб проєкт працював коректно, імпортуйте їх через Unity Asset Store або Package Manager.
-
 ### Опціональні пакети (Unity Package Manager)
 
 - [Post Processing]
