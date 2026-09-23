@@ -1,0 +1,56 @@
+name: LFS guard
+
+# Когда запускаться:
+# - push в любую ветку, кроме main (ранний сигнал автору)
+# - pull_request в main (ворота перед мержем)
+on:
+  push:
+    branches-ignore: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lfs-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # нужна вся история, чтобы сравнить diff
+
+      - name: Fail if large files bypass LFS
+        shell: bash
+        run: |
+          set -e
+          LIMIT=$((1 * 1024 * 1024)) # порог: 1 MiB
+
+          # Выбираем диапазон сравнения:
+          # для PR — от base-ветки, для push — от точки расхождения с main
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            RANGE="${{ github.event.pull_request.base.sha }}...HEAD"
+          else
+            BASE="$(git merge-base HEAD origin/main 2>/dev/null || true)"
+            if [ -z "$BASE" ]; then RANGE="HEAD"; else RANGE="$BASE...HEAD"; fi
+          fi
+
+          fail=0
+          # -z + read -d '' корректно держат пробелы в именах файлов
+          while IFS= read -r -d '' f; do
+            [ -f "$f" ] || continue # удалённых файлов уже нет на диске
+            size="$(stat -c%s -- "$f")"
+            if [ "$size" -gt "$LIMIT" ]; then
+              # git check-attr читает .gitattributes: ждём filter=lfs
+              attr="$(git check-attr filter -- "$f" | awk '{print $NF}')"
+              if [ "$attr" != "lfs" ]; then
+                echo "::error file=$f::Large file ($size bytes) is not tracked by Git LFS."
+                echo "  Fix: git lfs track \"<pattern>\" -> git add --renormalize . -> recommit."
+                fail=1
+              fi
+            fi
+          done < <(git diff -z --name-only --diff-filter=ACMRT "$RANGE" -- . ':(exclude).gitattributes')
+
+          if [ "$fail" -eq 1 ]; then
+            echo "LFS guard FAILED: large non-LFS files found."
+            exit 1
+          fi
+          echo "LFS guard passed: no large non-LFS files."

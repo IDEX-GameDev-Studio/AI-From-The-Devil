@@ -1,36 +1,41 @@
 # AI-From-The-Devil — AI Agent Guidelines
 
-## Про проект
+## About the Project
 
-**Назва:** AI-From-The-Devil
-**Жанр:** Психологічний хоррор (PSX/VHS стиль)
-**Двигун:** Unity 6000.x
-**Тип:** Студентський проект (прототип)
-**Срок:** до 14 лютого 2027
-**Платформа:** Windows
+**Title:** AI-From-The-Devil
+**Genre:** Psychological horror (PSX/VHS style)
+**Engine:** Unity 6000.x
+**Type:** Student project (prototype)
+**Deadline:** February 14, 2027
+**Platform:** Windows
 
-### Команда
+### Team
 
-- **Михайло (MRMIL)** — код, геймдизайн, гіт
-- **Богдан** — дизайн рівнів, механіки
-- **Марина** — звук, візуал (пасивна)
-- **Ваня** — шейдери, моделі (від'їхав у табір)
+- **Mykhailo (MRMIL)** — code, game design, git
+- **Bohdan** — level design, mechanics
+- **Maryna** — sound, visuals (passive)
+- **Ivan** — shaders, models (away at camp)
 
-## Стандарти коду
+## Communication
 
-### Іменування
+- **Always reply in the user's language.** If the user writes in Ukrainian, answer in Ukrainian; if in Russian, answer in Russian; if in English, answer in English. Never switch languages unprompted.
+- Keep answers short and factual. No flattery, no filler.
 
-| Тип | Приклад |
+## Code Standards
+
+### Naming
+
+| Type | Example |
 |-----|---------|
-| Приватні поля | `_health`, `_coins` |
-| Публічні поля | `MaxHealth` (PascalCase) |
-| Методи | `TakeDamage()`, `SpawnEnemy()` |
-| Класи | `TowerManager`, `EnemySpawner` |
-| Константи | `MAX_WAVES` |
+| Private fields | `_health`, `_coins` |
+| Public fields | `MaxHealth` (PascalCase) |
+| Methods | `TakeDamage()`, `SpawnEnemy()` |
+| Classes | `TowerManager`, `EnemySpawner` |
+| Constants | `MAX_WAVES` |
 
-### Коміти
+### Commits
 
-**Тільки англійською!** Формат:
+**English only!** Format:
 
 ```
 <type>(<scope>): <description>
@@ -40,19 +45,19 @@
 **Scope:** `concept`, `prototype`, `story`, `ui`, `enemy`, `ai`, `docs`
 
 **Breaking Changes (`!`):**
-Ставиться після типу перед `:`, коли зміна ламає зворотну сумісність:
+Placed after the type before `:`, when the change breaks backward compatibility:
 ```
 feat!: rename SoulSystem -> ParanoiaSystem
 fix(api)!: remove deprecated GetVictim method
 ```
 
-Коли використовувати:
-- Видаляєш публічний метод/поле
-- Змінюєш сигнатуру методу (параметри, назва)
-- Змінюєш поведінку, яку інші частини коду використовують
-- Перейменовуєш клас або неймспейс
+When to use:
+- Removing a public method/field
+- Changing a method signature (parameters, name)
+- Changing behavior other parts of the code rely on
+- Renaming a class or namespace
 
-Приклади:
+Examples:
 ```
 feat(concept): add ConceptPrototype with moral choices
 fix(story): align endings between Concept and Prototype
@@ -60,32 +65,33 @@ docs: add AGENTS.md with guidelines
 feat!: rename SoulSystem to ParanoiaSystem
 ```
 
-### Гілки
+### Branches
 
 ```
-main              # стабільна документація
-├── feat/prototype  # фічі прототипу
-├── feat/story      # сюжет
-└── fix/*           # виправлення
+main              # stable documentation
+├── feat/prototype  # prototype features
+├── feat/story      # story
+└── fix/*           # fixes
 ```
 
-## Важливі правила для AI-агентів
+## Important Rules for AI Agents
 
-- **Пушить тільки користувач.** AI створює коміти локально, показує зміни користувачу, і тільки після підтвердження користувач пушить в remote.
-- **Не змінювати `.gitignore`** без дозволу.
-- **Не видаляти файли** без дозволу.
-- **Перед пушем** — показати що буде запушено (git status, git diff --stat).
+- **Only the user pushes.** AI creates commits locally, shows the changes to the user, and only after confirmation does the user push to remote.
+- **Do not modify `.gitignore`** without permission.
+- **Do not delete files** without permission.
+- **Before push** — show what will be pushed (git status, git diff --stat).
 
-## Контекст проекту
+## Project Context
 
-- **CloseAI** — компанія-розробник (як OpenAI), **Closely** — нейромережа-вірус (як GPT), що поширюється через smart home системи
-- **Сюжет:** 2000-ні, ГГ зламує сервери CloseAI, запускає Closely на своєму ПК, несвідомо випускає вірус
-- **Жанр:** психологічний хоррор / техно-трилер (без містики)
-- **Ворог:** не монстри, а параноя, технології та власний вибір
-- **PSX/VHS стиль** (Low-poly + пост-процесинг)
-- **Концепт:** AI використовує ГГ як інструмент поширення, шантажує при відмові
+- **CloseAI** — developer company (like OpenAI), **Closely** — neural-network virus (like GPT) spreading via smart home systems
+- **Story:** 2000s, the hero breaches CloseAI servers, launches Closely on his PC, unknowingly releases the virus
+- **Genre:** psychological horror / techno-thriller (no mysticism)
+- **Enemy:** not monsters, but paranoia, technology, and your own choice
+- **PSX/VHS style** (low-poly + post-processing)
+- **Concept:** the AI uses the hero as a distribution tool, blackmails on refusal
 
-## Посилання
+## Links
 
-- Репозиторій: https://github.com/MRMIL1234/AI-From-The-Devil
-- Obsidian нотатки: `ObsidianDocs/`
+- Repository: https://github.com/IDEX-GameDev-Studio/AI-From-The-Devil
+- Public docs (EN/UK): `docs/en/`, `docs/uk/`
+- Team notes (UA): `ObsidianDocs/`

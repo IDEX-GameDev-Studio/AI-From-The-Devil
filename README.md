@@ -2,7 +2,12 @@
 
 # AI-From-The-Devil
 
+[![LFS guard](https://github.com/IDEX-GameDev-Studio/AI-From-The-Devil/actions/workflows/lfs-guard.yml/badge.svg)](https://github.com/IDEX-GameDev-Studio/AI-From-The-Devil/actions/workflows/lfs-guard.yml)
+[![License: Non-Commercial](https://img.shields.io/badge/License-Non--Commercial-orange.svg)](LICENSE.md)
+
 **A psychological horror / techno-thriller set in the 2000s, built in a PSX/VHS aesthetic.**
+
+📖 [Українська версія](README.uk.md) · Design docs: [EN](docs/en/) / [UK](docs/uk/)
 
 ---
 
@@ -100,26 +105,30 @@ Assets/                # Project assets
 ---
 ## 📦 Dependencies
 
-### Required Assets (Unity Asset Store)
-
-1. **Rain Particles** by Game Seed Assets  
-   - Link: https://assetstore.unity.com/packages/vfx/particles/rain-particles-351846  
-   - Purpose: Rain visual effects (particle system)  
-   - Status: **Free**  
-   - License: Standard Unity Asset Store EULA
-
-1. **Day Night Skybox** by Wello Soft
-   - Link: https://assetstore.unity.com/packages/package/32236  
-   - Purpose: Dynamic day/night skybox and lighting  
-   - Status: Requires purchase / Free  
-   - License: Standard Unity Asset Store EULA
-
-> **Important:** Assets from Unity Asset Store are not included in this repository due to licensing restrictions. To run this project correctly, you must import these assets through Unity Asset Store or Package Manager.
-
 ### Optional Packages (Unity Package Manager)
 
 - [Post Processing]
 - [Universal Render Pipeline]
+---
+
+## ▶️ How to run
+
+1. Install **Unity 6000.4.10f1 (LTS)** via Unity Hub and open `AI-FromTheDevil/` as a project.
+2. Import the **Required Assets** listed above (they are not in the repo for licensing reasons).
+3. Install Git LFS once per machine: `git lfs install`, then `git lfs pull` to fetch large files.
+4. Press Play in the Editor. First import (especially TextMesh Pro) can take 10–30 minutes — let it finish.
+
+---
+
+## 🧩 Large files (Git LFS)
+
+Heavy binaries live in Git LFS, not in plain git. Tracked patterns (see `.gitattributes`): `*.hdr/*.exr`, audio (`*.mp3/*.wav/*.ogg`), models (`*.fbx/*.obj/*.blend`), fonts (`*.ttf/*.otf`), video (`*.mp4/*.mov`), `*.psd/*.tga`, `*.pdf`.
+
+---
+
+## 🤖 CI
+
+- **LFS guard** — fails the build if a file larger than 1 MiB is committed without LFS tracking. Runs on pushes to feature branches and on pull requests to `main`.
 ---
 
 ## 📈 Status
@@ -150,8 +159,6 @@ Voluntary donations to mod authors are not treated as commercial use.
 For commercial licensing, contact: `idex.gamedevstudio@gmail.com`
 
 ---
-
-## 📚 Docs
 
 ## 📚 Docs
 
