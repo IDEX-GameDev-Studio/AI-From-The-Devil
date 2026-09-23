@@ -4,24 +4,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TargetingEvents", menuName = "Scriptable Objects/TargetingEvents")]
 public class TargetingEvents : ScriptableObject
 {
-    private event Action<InteractionData> _OnTargeted;
-    private event Action<InteractionData> _OnExit;
-    public event Action<InteractionData> OnTargeted
-    {
-        add => _OnTargeted += value;
-        remove => _OnTargeted -= value;
-    }
-    public event Action<InteractionData> OnExit
-    {
-        add => _OnExit += value;
-        remove => _OnExit -= value;
-    }
+    // A plain event already forbids outside Invoke: only += and -= are visible externally.
+    public event Action<InteractionData> OnTargeted;
+    public event Action<InteractionData> OnExit;
+
     public void Raise(InteractionData interactionData)
     {
-        _OnTargeted?.Invoke(interactionData);
+        OnTargeted?.Invoke(interactionData);
     }
     public void RaiseExit(InteractionData interactionData)
     {
-        _OnExit?.Invoke(interactionData);
+        OnExit?.Invoke(interactionData);
     }
 }

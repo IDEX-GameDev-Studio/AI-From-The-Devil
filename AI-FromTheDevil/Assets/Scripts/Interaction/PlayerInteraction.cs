@@ -1,14 +1,16 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerInteraction : MonoBehaviour
 {
     private PlayerInputActions _playerInputActions;
     [SerializeField] private float _rayDistance;
+    [SerializeField] private LayerMask _interactableMask;
     [SerializeField] private TargetingEvents _targetingEvents;
+    [SerializeField] private InteractionEvents _interactionEvents;
 
     private IInteractable _lastObject;
-    private IInteractable _currentObject;
     private Camera _camera;
 
     private void Awake()
@@ -29,6 +31,14 @@ public class PlayerInteraction : MonoBehaviour
     }
     void Update()
     {
+        // TEMPORARY test hook: press R in Play Mode to reload the scene
+        // and check for duplicate event calls. Remove after testing.
+        if (Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            return;
+        }
+
         RayCastChecker();
     }
     public void RayCastChecker()
@@ -36,53 +46,41 @@ public class PlayerInteraction : MonoBehaviour
         Vector2 currentMousePossition = _playerInputActions.Player.PointerPossition.ReadValue<Vector2>();
         Ray ray = _camera.ScreenPointToRay(currentMousePossition);
         RaycastHit hit;
-        IInteractable interactable = null;
-        if (Physics.Raycast(ray, out hit, _rayDistance))
+        IInteractable currentObject = null;
+        if (Physics.Raycast(ray, out hit, _rayDistance, _interactableMask))
         {
-
-            if (hit.collider.TryGetComponent(out interactable))
+            if (hit.collider.TryGetComponent(out IInteractable interactable))
             {
-                _currentObject = interactable;
-            }
-            else
-            {
-                _currentObject = null;
+                currentObject = interactable;
             }
         }
-        else
-        {
-            _currentObject = null;
-        }
-        if (_lastObject == null)
-        {
-        }
 
-        // Developer blocks zone
+        // Developer blocks zone: guard clause, clicking empty space is expected, not exceptional.
         if (_playerInputActions.Player.Interact.WasPressedThisFrame())
         {
-            interactable.Interact();
+            if (currentObject != null)
+            {
+                currentObject.Interact();
+                _interactionEvents.Raise(currentObject.InteractionData);
+            }
         }
 
 
         Debug.DrawRay(ray.origin, ray.direction * _rayDistance, Color.red);
-        if (_lastObject == null && _currentObject is IInteractable)
+        if (currentObject != _lastObject)
         {
-            _targetingEvents.Raise(_currentObject.InteractionData);
-        }
-        else if (_lastObject == _currentObject)
-        {
-            return;
-        }
-        else if (_lastObject != _currentObject && _currentObject is IInteractable)
-        {
-            // Dev
-        }
-        else if (_lastObject is IInteractable && _currentObject == null)
-        {
-            _targetingEvents.RaiseExit(_lastObject.InteractionData);
-        }
+            if (_lastObject != null)
+            {
+                _targetingEvents.RaiseExit(_lastObject.InteractionData);
+            }
 
-        _lastObject = _currentObject;
+            if (currentObject != null)
+            {
+                _targetingEvents.Raise(currentObject.InteractionData);
+            }
+
+            _lastObject = currentObject;
+        }
     }
     
 }
