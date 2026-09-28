@@ -11,6 +11,7 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] private InteractionEvents _interactionEvents;
 
     private IInteractable _lastObject;
+    private InteractionData _lastInteractionData;
     private Camera _camera;
 
     private void Awake()
@@ -56,12 +57,15 @@ public class PlayerInteraction : MonoBehaviour
         }
 
         // Developer blocks zone: guard clause, clicking empty space is expected, not exceptional.
+        // Snapshot the data BEFORE Interact(): Interact() may destroy the object (pickup, one-shot door),
+        // and reading .InteractionData afterwards would throw MissingReferenceException.
         if (_playerInputActions.Player.Interact.WasPressedThisFrame())
         {
             if (currentObject != null)
             {
+                InteractionData data = currentObject.InteractionData;
                 currentObject.Interact();
-                _interactionEvents.Raise(currentObject.InteractionData);
+                _interactionEvents.Raise(data);
             }
         }
 
@@ -69,14 +73,18 @@ public class PlayerInteraction : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * _rayDistance, Color.red);
         if (currentObject != _lastObject)
         {
-            if (_lastObject != null)
+            // Use the cached data: _lastObject may already be destroyed (consumed, scene change),
+            // but InteractionData is a ScriptableObject asset and outlives scene objects.
+            if (_lastInteractionData != null)
             {
-                _targetingEvents.RaiseExit(_lastObject.InteractionData);
+                _targetingEvents.RaiseExit(_lastInteractionData);
             }
 
-            if (currentObject != null)
+            _lastInteractionData = currentObject != null ? currentObject.InteractionData : null;
+
+            if (_lastInteractionData != null)
             {
-                _targetingEvents.Raise(currentObject.InteractionData);
+                _targetingEvents.Raise(_lastInteractionData);
             }
 
             _lastObject = currentObject;
