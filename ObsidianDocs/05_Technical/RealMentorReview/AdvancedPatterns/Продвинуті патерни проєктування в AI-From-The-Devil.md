@@ -21,3 +21,39 @@ MVC - View сам лізе до Model і оновлюється, тобто ві
 
 MVC та МVP - це як молоток та перфаратор, якщо View тільки 1, то краще MVC, а якщо більше то MVP. Як плюс MVP легше тестувати.
 Обрано MVP: View дізнається про зміни тільки від Presenter (QuestSystem), тому другий екран (HUD-трекер) не вимагатиме змін у моделях. Перевірка CheckProgress — це логіка предметної області, вона живе в Model за інкапсуляцією, а не в UI.
+
+## Factory
+
+Стандартні фабрики допомогають створювати нові об'єкти (як от наприклад квести) тримаючи чистоту коду та інкапсуляцію деталей
+
+Як я вже сказав, ми плануємо не хардкодити квести, а використовувати для цього фабрику, а гнучко через фабрику. Наприклад: 
+
+```
+public class QuestFactory
+{
+    public Quest Create(string title, string description, string requiredActionID)
+    {
+        return new Quest(title, description,
+            new List<QuestObjective> { new InteractObjective(requiredActionID) });
+    }
+}
+
+```
+
+Але, якщо у нас з'явиться `TutorialQuestFactory` то краще під такі задачі створити абстракцію
+
+```
+public abstract class QuestCreator
+{
+    public abstract Quest Create(string title, string description, string requiredActionID);
+}
+
+public class QuestFactory : QuestCreator
+{
+    public override Quest Create(string title, string description, string requiredActionID)
+    {
+        return new Quest(title, description,
+            new List<QuestObjective> { new InteractObjective(requiredActionID) });
+    }
+}
+```
