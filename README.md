@@ -109,6 +109,9 @@ Assets/                # Project assets
 
 - [Post Processing]
 - [Universal Render Pipeline]
+### Assets from Unity Asset Store
+
+- [Gridbox Prototype Materials](https://assetstore.unity.com/packages/2d/textures-materials/gridbox-prototype-materials-129127) — Used for environment prototyping and blockouts. > *Note: Per the Unity Asset Store EULA, direct asset files are excluded from this repository (`.gitignore`) and must be downloaded/imported separately by each contributor.*
 ---
 
 ## ▶️ How to run
